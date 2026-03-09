@@ -28,5 +28,5 @@ export default defineConfig({
       }
     })
   ],
-  base: './' // Para Github Pages
+  base: '/DFDSoft/' // Para Github Pages
 });
