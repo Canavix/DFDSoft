@@ -205,7 +205,7 @@ export default function Workspace() {
       <button 
         onClick={centerWorkspace}
         style={{
-          position: 'absolute', bottom: 20, left: 20,
+          position: 'absolute', bottom: 'calc(20px + env(safe-area-inset-bottom))', left: 20,
           background: 'white', border: '1px solid #ccc', borderRadius: '50%',
           width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)'

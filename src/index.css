@@ -28,6 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh; /* Mobile viewport fix */
 }
 
 .toolbar {
@@ -136,6 +137,7 @@ body {
   color: rgba(255,255,255,0.7);
   text-align: center;
   padding: 0.5rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
   font-size: 0.8rem;
   border-top: 1px solid rgba(0,0,0,0.2);
   z-index: 10;
