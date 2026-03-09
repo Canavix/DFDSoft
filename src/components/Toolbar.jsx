@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useDFDStore } from '../store';
-import { Play, FolderOpen, Save, Image as ImageIcon, FilePlus } from 'lucide-react';
+import { Play, FolderOpen, Save, Image as ImageIcon, FilePlus, Menu } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 export default function Toolbar() {
@@ -68,16 +68,19 @@ export default function Toolbar() {
   return (
     <header className="toolbar">
       <div className="toolbar-title" style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}>
+        <button title="Alternar Panel de Variables" onClick={() => dispatch({type: 'TOGGLE_SIDEBAR'})} style={{background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0}}>
+           <Menu size={24} />
+        </button>
         <img src={`${import.meta.env.BASE_URL}DFDSoft_Logo.png`} alt="DFDSoft Logo" style={{height: '28px', width: 'auto'}} />
-        <span>DFDSoft</span>
+        <span className="btn-text">DFDSoft</span>
       </div>
       <div className="toolbar-actions">
         <input type="file" accept=".dfd" ref={fileInputRef} style={{display:'none'}} onChange={handleFileChange} />
-        <button title="Nuevo Proyecto" onClick={handleNew}><FilePlus size={18} /> Nuevo</button>
-        <button title="Abrir Proyecto (.dfd)" onClick={handleOpenClick}><FolderOpen size={18} /> Abrir</button>
-        <button title="Guardar Proyecto (.dfd)" onClick={handleSaveDFD}><Save size={18} /> Guardar</button>
-        <button title="Exportar como PNG" onClick={handleExportPNG}><ImageIcon size={18} /> Guardar PNG</button>
-        <button title="Ejecutar" onClick={handlePlay} style={{background: '#27ae60'}}><Play size={18} /> Play</button>
+        <button title="Nuevo Proyecto" onClick={handleNew}><FilePlus size={18} /> <span className="btn-text">Nuevo</span></button>
+        <button title="Abrir Proyecto (.dfd)" onClick={handleOpenClick}><FolderOpen size={18} /> <span className="btn-text">Abrir</span></button>
+        <button title="Guardar Proyecto (.dfd)" onClick={handleSaveDFD}><Save size={18} /> <span className="btn-text">Guardar</span></button>
+        <button title="Exportar como PNG" onClick={handleExportPNG}><ImageIcon size={18} /> <span className="btn-text">Guardar PNG</span></button>
+        <button title="Ejecutar" onClick={handlePlay} style={{background: '#27ae60'}}><Play size={18} /> <span className="btn-text">Play</span></button>
       </div>
     </header>
   );

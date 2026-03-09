@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDFDStore } from '../store';
-import { Plus, Trash2, Edit2, HelpCircle } from 'lucide-react';
+import { Plus, Trash2, Edit2, HelpCircle, X } from 'lucide-react';
 
 export default function Sidebar() {
   const { state, dispatch } = useDFDStore();
@@ -30,11 +30,16 @@ export default function Sidebar() {
     setEditingVar(null);
   };
 
+  if (!state.isSidebarOpen) return null;
+
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
         <h3>Variables</h3>
-        <button className="add-variable-btn" onClick={() => setShowModal(true)}><Plus size={16} /></button>
+        <div style={{display: 'flex', gap: '0.5rem'}}>
+           <button className="add-variable-btn" title="Nueva Variable" onClick={() => setShowModal(true)}><Plus size={16} /></button>
+           <button className="add-variable-btn" title="Cerrar Panel" onClick={() => dispatch({type: 'TOGGLE_SIDEBAR'})} style={{background: '#e74c3c'}}><X size={16} /></button>
+        </div>
       </div>
       <div className="variable-list">
         {state.variables.length === 0 ? (

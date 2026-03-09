@@ -142,3 +142,30 @@ body {
   border-top: 1px solid rgba(0,0,0,0.2);
   z-index: 10;
 }
+
+@media (max-width: 768px) {
+  .btn-text {
+    display: none;
+  }
+  
+  .toolbar-actions button {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sidebar {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  }
+  
+  /* Reset layout inner relative position so absolute sidebar stays constrained */
+  .main-content {
+     position: relative;
+  }
+}

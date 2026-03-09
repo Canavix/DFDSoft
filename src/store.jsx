@@ -11,6 +11,7 @@ const initialState = {
   head: 'start',
   editingBlockId: null,
   simulationActive: false,
+  isSidebarOpen: window.innerWidth > 768,
 };
 
 const DFDContext = createContext();
@@ -73,6 +74,8 @@ function dfdReducer(state, action) {
       return { ...state, editingBlockId: action.payload };
     case 'SET_SIMULATION_ACTIVE':
       return { ...state, simulationActive: action.payload };
+    case 'TOGGLE_SIDEBAR':
+      return { ...state, isSidebarOpen: !state.isSidebarOpen };
     case 'UPDATE_BLOCK':
       return {
         ...state,
