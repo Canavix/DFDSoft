@@ -68,7 +68,7 @@ export default function Toolbar() {
   return (
     <header className="toolbar">
       <div className="toolbar-title" style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}>
-        <img src="/DFDSoft_Logo.png" alt="DFDSoft Logo" style={{height: '28px', width: 'auto'}} />
+        <img src={`${import.meta.env.BASE_URL}DFDSoft_Logo.png`} alt="DFDSoft Logo" style={{height: '28px', width: 'auto'}} />
         <span>DFDSoft</span>
       </div>
       <div className="toolbar-actions">

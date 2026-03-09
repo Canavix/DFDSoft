@@ -64,7 +64,7 @@ export default function Sidebar() {
         >
           <HelpCircle size={18} /> Ayuda y Uso
         </button>
-        <img src="/ITS.png" alt="ITS Logo" style={{ maxWidth: '100px', objectFit: 'contain' }} />
+        <img src={`${import.meta.env.BASE_URL}ITS.png`} alt="ITS Logo" style={{ maxWidth: '100px', objectFit: 'contain' }} />
       </div>
 
       {showModal && (
