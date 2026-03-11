@@ -14,7 +14,11 @@ export default function BlockConfig() {
   if (!state.editingBlockId || !data) return null;
 
   const handleSave = () => {
-    dispatch({ type: 'UPDATE_BLOCK', payload: data });
+    const payload = { ...data };
+    if (payload.type === 'ACCION' && !payload.operator) payload.operator = '+';
+    if ((payload.type === 'CONDICIONAL' || payload.type === 'MQ') && !payload.condOp) payload.condOp = '==';
+    
+    dispatch({ type: 'UPDATE_BLOCK', payload });
     dispatch({ type: 'SET_EDITING_BLOCK', payload: null });
   };
 

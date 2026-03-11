@@ -67,13 +67,15 @@ export default function Simulator() {
         setInputValue('');
     }
     else if (node.type === 'ACCION') {
-        const v1 = evaluateValue(node.op1);
-        const v2 = evaluateValue(node.op2);
+        const v1 = Number(evaluateValue(node.op1)) || 0;
+        const v2 = Number(evaluateValue(node.op2)) || 0;
         let result = 0;
-        if (node.operator === '+') result = v1 + v2;
-        if (node.operator === '-') result = v1 - v2;
-        if (node.operator === '*') result = v1 * v2;
-        if (node.operator === '/') result = v1 / v2;
+        const op = node.operator || '+';
+        
+        if (op === '+') result = v1 + v2;
+        if (op === '-') result = v1 - v2;
+        if (op === '*') result = v1 * v2;
+        if (op === '/') result = v1 / v2;
         
         if (node.targetVar) {
             setLocalVars(prev => ({...prev, [node.targetVar]: result}));
@@ -84,12 +86,14 @@ export default function Simulator() {
         const c1 = evaluateValue(node.cond1);
         const c2 = evaluateValue(node.cond2);
         let result = false;
-        if (node.condOp === '==') result = c1 == c2;
-        if (node.condOp === '!=') result = c1 != c2;
-        if (node.condOp === '>')  result = c1 > c2;
-        if (node.condOp === '>=') result = c1 >= c2;
-        if (node.condOp === '<')  result = c1 < c2;
-        if (node.condOp === '<=') result = c1 <= c2;
+        const cop = node.condOp || '==';
+        
+        if (cop === '==') result = c1 == c2;
+        if (cop === '!=') result = c1 != c2;
+        if (cop === '>')  result = c1 > c2;
+        if (cop === '>=') result = c1 >= c2;
+        if (cop === '<')  result = c1 < c2;
+        if (cop === '<=') result = c1 <= c2;
 
         if (result) {
             if (node.yesBranch) {
@@ -111,12 +115,14 @@ export default function Simulator() {
         const c1 = evaluateValue(node.cond1);
         const c2 = evaluateValue(node.cond2);
         let result = false;
-        if (node.condOp === '==') result = c1 == c2;
-        if (node.condOp === '!=') result = c1 != c2;
-        if (node.condOp === '>')  result = c1 > c2;
-        if (node.condOp === '>=') result = c1 >= c2;
-        if (node.condOp === '<')  result = c1 < c2;
-        if (node.condOp === '<=') result = c1 <= c2;
+        const cop = node.condOp || '==';
+
+        if (cop === '==') result = c1 == c2;
+        if (cop === '!=') result = c1 != c2;
+        if (cop === '>')  result = c1 > c2;
+        if (cop === '>=') result = c1 >= c2;
+        if (cop === '<')  result = c1 < c2;
+        if (cop === '<=') result = c1 <= c2;
 
         if (result) {
             if (node.bodyBranch) {
