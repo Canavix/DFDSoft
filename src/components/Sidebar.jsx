@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDFDStore } from '../store';
-import { Plus, Trash2, Edit2, HelpCircle, X } from 'lucide-react';
+import { Plus, Trash2, Edit2, HelpCircle, X, RefreshCw } from 'lucide-react';
 
 export default function Sidebar() {
   const { state, dispatch } = useDFDStore();
@@ -28,6 +28,25 @@ export default function Sidebar() {
     setVarName('');
     setVarValue('0');
     setEditingVar(null);
+  };
+
+  const handleHardReset = async () => {
+     if(confirm('¿Forzar actualización de DFDSoft? Esto borrará la memoria caché interna y descargará la última versión de internet.')) {
+         try {
+             if ('caches' in window) {
+                 const keys = await caches.keys();
+                 await Promise.all(keys.map(key => caches.delete(key)));
+             }
+             if ('serviceWorker' in navigator) {
+                 const registrations = await navigator.serviceWorker.getRegistrations();
+                 await Promise.all(registrations.map(r => r.unregister()));
+             }
+             window.location.reload(true);
+         } catch(e) {
+             console.error("Error limpiando caché:", e);
+             window.location.reload(true);
+         }
+     }
   };
 
   if (!state.isSidebarOpen) return null;
@@ -107,17 +126,20 @@ export default function Sidebar() {
                 <h4>5. Ejecutar Simulación</h4>
                 <p>Haz clic en <b>Play</b> arriba a la derecha. El algoritmo comenzará a resaltar la ruta lógica ejecutada, solicitándote variables o mostrando resultados según corresponda.</p>
                 
-                <hr style={{ margin: '1.5rem 0', border: 'none', borderTop: '1px solid #eee' }} />
-                <p style={{ fontStyle: 'italic', textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>
-                  Para soporte, integraciones o comentarios sobre el software, puede contactar al desarrollador en:<br />
-                  <a href="mailto:camilo.canaveral@itspereira.edu.co" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold' }}>camilo.canaveral@itspereira.edu.co</a>
-                </p>
-             </div>
-             <div style={{display:'flex', justifyContent: 'flex-end', marginTop: '1.5rem'}}>
-                <button onClick={() => setShowHelp(false)} style={{padding: '0.5rem 1rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Entendido</button>
-             </div>
-          </div>
-        </div>
+                 <hr style={{ margin: '1.5rem 0', border: 'none', borderTop: '1px solid #eee' }} />
+                 <p style={{ fontStyle: 'italic', textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>
+                   Para soporte, integraciones o comentarios sobre el software, puede contactar al desarrollador en:<br />
+                   <a href="mailto:camilo.canaveral@itspereira.edu.co" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold' }}>camilo.canaveral@itspereira.edu.co</a>
+                 </p>
+              </div>
+              <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem'}}>
+                 <button onClick={handleHardReset} style={{padding: '0.5rem 1rem', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem'}}>
+                    <RefreshCw size={16} /> Forzar Actualización
+                 </button>
+                 <button onClick={() => setShowHelp(false)} style={{padding: '0.5rem 1rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Entendido</button>
+              </div>
+           </div>
+         </div>
       )}
     </aside>
   );
