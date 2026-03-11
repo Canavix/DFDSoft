@@ -9,7 +9,7 @@ export default function Workspace() {
   const [scale, setScale] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [startPan, setStartPan] = useState({ x: 0, y: 0 });
+  const [startPan, setStartPan] = useState({ pointerX: 0, pointerY: 0, initialPanX: 0, initialPanY: 0, multiplier: 1 });
   const containerRef = useRef(null);
 
   const renderFlow = (nodeId) => {
@@ -122,14 +122,29 @@ export default function Workspace() {
   };
 
   const handlePointerDown = (e) => {
-    if (e.button !== 0) return; // Only left click
+    if (e.pointerType === 'mouse' && e.button !== 0) return; // Solo clic izquierdo en ratón
     setIsDragging(true);
-    setStartPan({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    
+    // Acelerador inteligente para tableros interactivos gigantes
+    let multiplier = 1;
+    if ((e.pointerType === 'touch' || e.pointerType === 'pen') && window.innerWidth > 1200) {
+       multiplier = 2.5; 
+    }
+    
+    setStartPan({ 
+       pointerX: e.clientX, 
+       pointerY: e.clientY, 
+       initialPanX: pan.x, 
+       initialPanY: pan.y,
+       multiplier
+    });
   };
 
   const handlePointerMove = (e) => {
     if (!isDragging) return;
-    setPan({ x: e.clientX - startPan.x, y: e.clientY - startPan.y });
+    const deltaX = (e.clientX - startPan.pointerX) * startPan.multiplier;
+    const deltaY = (e.clientY - startPan.pointerY) * startPan.multiplier;
+    setPan({ x: startPan.initialPanX + deltaX, y: startPan.initialPanY + deltaY });
   };
 
   const handlePointerUp = () => setIsDragging(false);
