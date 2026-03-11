@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useDFDStore } from '../store';
-import { Play, FolderOpen, Save, Image as ImageIcon, FilePlus, Menu, Download } from 'lucide-react';
+import { Play, FolderOpen, Save, Image as ImageIcon, FilePlus, Menu, Download, RefreshCw } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 export default function Toolbar() {
@@ -60,6 +60,25 @@ export default function Toolbar() {
      }
   };
 
+  const handleHardReset = async () => {
+     if(confirm('¿Forzar actualización de DFDSoft? Esto borrará la memoria caché interna y descargará la última versión de internet.')) {
+         try {
+             if ('caches' in window) {
+                 const keys = await caches.keys();
+                 await Promise.all(keys.map(key => caches.delete(key)));
+             }
+             if ('serviceWorker' in navigator) {
+                 const registrations = await navigator.serviceWorker.getRegistrations();
+                 await Promise.all(registrations.map(r => r.unregister()));
+             }
+             window.location.reload(true);
+         } catch(e) {
+             console.error("Error limpiando caché:", e);
+             window.location.reload(true);
+         }
+     }
+  };
+
   const handleSaveDFD = () => {
      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
      const dlAnchorElem = document.createElement('a');
@@ -110,6 +129,7 @@ export default function Toolbar() {
         <button title="Guardar Proyecto (.dfd)" onClick={handleSaveDFD}><Save size={18} /> <span className="btn-text">Guardar</span></button>
         <button title="Exportar como PNG" onClick={handleExportPNG}><ImageIcon size={18} /> <span className="btn-text">Guardar PNG</span></button>
         <button title="Ejecutar" onClick={handlePlay} style={{background: '#27ae60'}}><Play size={18} /> <span className="btn-text">Play</span></button>
+        <button title="Fozar Actualización de App" onClick={handleHardReset} style={{background: '#e74c3c'}}><RefreshCw size={18} /> <span className="btn-text">Actualizar</span></button>
       </div>
     </header>
   );
