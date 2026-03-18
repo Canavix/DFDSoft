@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import Workspace from './components/Workspace';
 import BlockConfig from './components/BlockConfig';
 import Simulator from './components/Simulator';
+import SettingsModal from './components/SettingsModal';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <BlockConfig />
           <Simulator />
         </div>
+        <SettingsModal />
         <footer className="footer">
           Desarrollado por Cristian Camilo Cañaveral Avilés
         </footer>

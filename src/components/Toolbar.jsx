@@ -6,32 +6,6 @@ import html2canvas from 'html2canvas';
 export default function Toolbar() {
   const { state, dispatch } = useDFDStore();
   const fileInputRef = useRef(null);
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      setDeferredPrompt(e);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    // Show the install prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
-    // We've used the prompt, and can't use it again, throw it away
-    setDeferredPrompt(null);
-  };
 
   const handleExportPNG = async () => {
     const el = document.getElementById('dfd-flow-export');
@@ -101,9 +75,6 @@ export default function Toolbar() {
         <span className="btn-text">DFDSoft</span>
       </div>
       <div className="toolbar-actions">
-        {deferredPrompt && (
-           <button title="Instalar Aplicación" onClick={handleInstallClick} style={{background: '#8e44ad'}}><Download size={18} /> <span className="btn-text">Instalar</span></button>
-        )}
         <input type="file" accept=".dfd" ref={fileInputRef} style={{display:'none'}} onChange={handleFileChange} />
         <button title="Nuevo Proyecto" onClick={handleNew}><FilePlus size={18} /> <span className="btn-text">Nuevo</span></button>
         <button title="Abrir Proyecto (.dfd)" onClick={handleOpenClick}><FolderOpen size={18} /> <span className="btn-text">Abrir</span></button>

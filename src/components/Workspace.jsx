@@ -125,10 +125,10 @@ export default function Workspace() {
     if (e.pointerType === 'mouse' && e.button !== 0) return; // Solo clic izquierdo en ratón
     setIsDragging(true);
     
-    // Acelerador inteligente para tableros interactivos gigantes
-    let multiplier = 1;
+    // Acelerador inteligente para tableros interactivos gigantes, balanceado con la sensibilidad manual
+    let multiplier = state.panSensitivity || 1;
     if ((e.pointerType === 'touch' || e.pointerType === 'pen') && window.innerWidth > 1200) {
-       multiplier = 2.5; 
+       multiplier *= 2.5; 
     }
     
     setStartPan({ 

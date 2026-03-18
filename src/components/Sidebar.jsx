@@ -30,24 +30,7 @@ export default function Sidebar() {
     setEditingVar(null);
   };
 
-  const handleHardReset = async () => {
-     if(confirm('¿Forzar actualización de DFDSoft? Esto borrará la memoria caché interna y descargará la última versión de internet.')) {
-         try {
-             if ('caches' in window) {
-                 const keys = await caches.keys();
-                 await Promise.all(keys.map(key => caches.delete(key)));
-             }
-             if ('serviceWorker' in navigator) {
-                 const registrations = await navigator.serviceWorker.getRegistrations();
-                 await Promise.all(registrations.map(r => r.unregister()));
-             }
-             window.location.reload(true);
-         } catch(e) {
-             console.error("Error limpiando caché:", e);
-             window.location.reload(true);
-         }
-     }
-  };
+
 
   if (!state.isSidebarOpen) return null;
 
@@ -132,10 +115,7 @@ export default function Sidebar() {
                    <a href="mailto:camilo.canaveral@itspereira.edu.co" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold' }}>camilo.canaveral@itspereira.edu.co</a>
                  </p>
               </div>
-              <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem'}}>
-                 <button onClick={handleHardReset} style={{padding: '0.5rem 1rem', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem'}}>
-                    <RefreshCw size={16} /> Forzar Actualización
-                 </button>
+              <div style={{display:'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1.5rem', borderTop: '1px solid #eee', paddingTop: '1rem'}}>
                  <button onClick={() => setShowHelp(false)} style={{padding: '0.5rem 1rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Entendido</button>
               </div>
            </div>
