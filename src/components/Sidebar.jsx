@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDFDStore } from '../store';
-import { Plus, Trash2, Edit2, HelpCircle, X, RefreshCw } from 'lucide-react';
+import { Plus, Trash2, Edit2, HelpCircle, X, RefreshCw, Settings } from 'lucide-react';
 
 export default function Sidebar() {
   const { state, dispatch } = useDFDStore();
@@ -70,6 +70,12 @@ export default function Sidebar() {
           style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}
         >
           <HelpCircle size={18} /> Ayuda y Uso
+        </button>
+        <button 
+          onClick={() => dispatch({type: 'SET_SETTINGS_OPEN', payload: true})} 
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: '#64748b', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}
+        >
+          <Settings size={18} /> Configuración
         </button>
         <img src={`${import.meta.env.BASE_URL}ITS.png`} alt="ITS Logo" style={{ maxWidth: '100px', objectFit: 'contain' }} />
       </div>
