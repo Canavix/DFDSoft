@@ -15,9 +15,7 @@
 - **Aplicación Web Progresiva (PWA):** Instala DFDSoft en tu ordenador (Windows/Mac) o en tu celular como si fuese una aplicación nativa. 
 
 ## 📸 Captura de Pantalla
-*(Para añadir una visualización técnica, simplemente toma el recorte ideal de la aplicación en uso empleando el botón "Exportar como PNG" y guarda la imagen en este repositorio con el nombre `captura.png`)*
-
-![Captura de pantalla de DFDSoft](captura.png)
+![Captura de pantalla de DFDSoft](DFDSoft_SS.png)
 
 ## 📖 Guía Rápida de Uso
 1. **El Espacio de Trabajo:** El lienzo funciona como un mapa infinito. Arrastra con clic izquierdo para moverte y usa `CTRL + Rueda del Ratón` para acercar o alejar (Zoom). Usa el botón "Centrar" ubicado en la esquina inferior izquierda del diseñador para volver a la vista global de la aplicación.
