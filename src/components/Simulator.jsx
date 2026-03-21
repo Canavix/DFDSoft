@@ -100,14 +100,14 @@ export default function Simulator() {
                 setReturnStack(prev => [...prev, node.next]);
                 setCurrentNodeId(node.yesBranch);
             } else {
-                setCurrentNodeId(node.next);
+                moveToNext(node.next);
             }
         } else {
             if (node.noBranch) {
                 setReturnStack(prev => [...prev, node.next]);
                 setCurrentNodeId(node.noBranch);
             } else {
-                setCurrentNodeId(node.next);
+                moveToNext(node.next);
             }
         }
     }
@@ -129,11 +129,11 @@ export default function Simulator() {
                 setReturnStack(prev => [...prev, node.next]); // node.next is FIN_MQ
                 setCurrentNodeId(node.bodyBranch);
             } else {
-                setCurrentNodeId(node.next);
+                moveToNext(node.next);
             }
         } else {
             const endMqNode = state.blocks[node.next];
-            setCurrentNodeId(endMqNode ? endMqNode.next : null);
+            moveToNext(endMqNode ? endMqNode.next : null);
         }
     }
     else if (node.type === 'FIN_MQ') {
@@ -149,11 +149,17 @@ export default function Simulator() {
           setCurrentNodeId(nextId);
       } else {
           // If no next pointer, pop from the return stack for convergence
-          if (returnStack.length > 0) {
-              const newStack = [...returnStack];
-              const convergenceId = newStack.pop();
-              setReturnStack(newStack);
-              setCurrentNodeId(convergenceId);
+          let foundNext = null;
+          let newStack = [...returnStack];
+          
+          while (!foundNext && newStack.length > 0) {
+              foundNext = newStack.pop();
+          }
+          
+          setReturnStack(newStack);
+          
+          if (foundNext) {
+              setCurrentNodeId(foundNext);
           } else {
               handleStop();
           }
