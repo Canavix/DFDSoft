@@ -15,9 +15,7 @@
 - **Aplicación Web Progresiva (PWA):** Instala DFDSoft en tu ordenador (Windows/Mac) o en tu celular como si fuese una aplicación nativa. 
 
 ## 📸 Captura de Pantalla
-*(Para añadir una visualización técnica, simplemente toma el recorte ideal de la aplicación en uso empleando el botón "Exportar como PNG" y guarda la imagen en este repositorio con el nombre `captura.png`)*
-
-![Captura de pantalla de DFDSoft](captura.png)
+![Captura de pantalla de DFDSoft](DFDSoft_SS.png)
 
 ## 📖 Guía Rápida de Uso
 1. **El Espacio de Trabajo:** El lienzo funciona como un mapa infinito. Arrastra con clic izquierdo para moverte y usa `CTRL + Rueda del Ratón` para acercar o alejar (Zoom). Usa el botón "Centrar" ubicado en la esquina inferior izquierda del diseñador para volver a la vista global de la aplicación.
@@ -26,12 +24,14 @@
 4. **Editar Bloques:** Haz **doble clic** sobre un bloque de Entrada, Salida, Condicional u Operación, para entrelazar las variables creadas con operaciones u órdenes.
 5. **Ejecutar:** Presiona **Play** (botón verde superior derecho) para inicializar el algoritmo. El flujo será guiado.
 
+## ⚖️ Licencia
+
 ## ©️ Licencia y Distribución
-Este software se distribuye bajo fines de uso **educativo libre y de código abierto (Open Source)**. Está permitido su uso, clonación e implementación gratuita total para acompañar los procesos pedagógicos en la estructuración algorítmica.
+Este proyecto está bajo la Licencia MIT, se distribuye bajo fines de uso **educativo libre y de código abierto (Open Source)**. Está permitido su uso, clonación e implementación gratuita total para acompañar los procesos pedagógicos en la estructuración algorítmica.
 *El logotipo institucional "ITS" pertenece al Instituto Tecnológico de Santa Rosa de Cabal bajo sus respectivos derechos de uso de marca.*
 
 ## 👨‍💻 Acerca del Desarrollador
-DFDSoft fue diseñado y desarrollado íntegramente por:
+Si utilizas esta herramienta en tu institución, ¡me encantaría saberlo! Puedes contactarme para asesorías o sugerencias.
 **Cristian Camilo Cañaveral Avilés**
 ✉️ Correo de contacto y soporte: [camilo.canaveral@itspereira.edu.co](mailto:camilo.canaveral@itspereira.edu.co)
 🌐 Github: [github.com/Canavix](https://github.com/Canavix)
