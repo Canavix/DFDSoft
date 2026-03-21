@@ -20,7 +20,7 @@ function App() {
         </div>
         <SettingsModal />
         <footer className="footer">
-          Desarrollado por Cristian Camilo Cañaveral Avilés
+          &copy; 2026 Cristian Camilo Cañaveral Avilés. Distribuido bajo Licencia MIT.
         </footer>
       </div>
     </DFDProvider>
