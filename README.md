@@ -1,7 +1,7 @@
 # DFDSoft
 
 <p align="center">
-  <img src="public/DFDSoft_Logo.png" alt="DFDSoft Logo" width="150" />
+  <img src="DFDSoft_Logo.png" alt="DFDSoft Logo" width="150" />
 </p>
 
 ## 📌 Descripción
