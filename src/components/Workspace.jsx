@@ -11,6 +11,10 @@ export default function Workspace() {
   const [isDragging, setIsDragging] = useState(false);
   const [startPan, setStartPan] = useState({ pointerX: 0, pointerY: 0, initialPanX: 0, initialPanY: 0, multiplier: 1 });
   const containerRef = useRef(null);
+  const mainRef = useRef(null);
+  const pointersRef = useRef({});
+  const initialDistRef = useRef(null);
+  const initialScaleRef = useRef(1);
 
   const renderFlow = (nodeId) => {
     if (!nodeId) return null;
@@ -123,38 +127,117 @@ export default function Workspace() {
 
   const handlePointerDown = (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return; // Solo clic izquierdo en ratón
-    setIsDragging(true);
     
-    // Acelerador inteligente para tableros interactivos gigantes, balanceado con la sensibilidad manual
-    let multiplier = state.panSensitivity || 1;
-    if ((e.pointerType === 'touch' || e.pointerType === 'pen') && window.innerWidth > 1200) {
-       multiplier *= 2.5; 
+    // Registrar el puntero activo
+    pointersRef.current[e.pointerId] = { x: e.clientX, y: e.clientY };
+
+    if (Object.keys(pointersRef.current).length === 2) {
+       // Iniciar Pinch-to-Zoom
+       const pointers = Object.values(pointersRef.current);
+       const dx = pointers[0].x - pointers[1].x;
+       const dy = pointers[0].y - pointers[1].y;
+       initialDistRef.current = Math.hypot(dx, dy);
+       // Usar un valor funcional asíncrono no funcionaría con ref de inmediato, así que obtenemos el scale actual del estado
+       setScale((prevScale) => {
+          initialScaleRef.current = prevScale;
+          return prevScale;
+       });
+       setIsDragging(false); // Detener el arrastre mientras se hace zoom
+    } else if (Object.keys(pointersRef.current).length === 1) {
+       setIsDragging(true);
+       
+       let multiplier = state.panSensitivity || 1;
+       if ((e.pointerType === 'touch' || e.pointerType === 'pen') && window.innerWidth > 1200) {
+          multiplier *= 2.5; 
+       }
+       
+       setPan((prevPan) => {
+          setStartPan({ 
+             pointerX: e.clientX, 
+             pointerY: e.clientY, 
+             initialPanX: prevPan.x, 
+             initialPanY: prevPan.y,
+             multiplier
+          });
+          return prevPan;
+       });
     }
-    
-    setStartPan({ 
-       pointerX: e.clientX, 
-       pointerY: e.clientY, 
-       initialPanX: pan.x, 
-       initialPanY: pan.y,
-       multiplier
-    });
   };
 
   const handlePointerMove = (e) => {
-    if (!isDragging) return;
-    const deltaX = (e.clientX - startPan.pointerX) * startPan.multiplier;
-    const deltaY = (e.clientY - startPan.pointerY) * startPan.multiplier;
-    setPan({ x: startPan.initialPanX + deltaX, y: startPan.initialPanY + deltaY });
-  };
+    if (pointersRef.current[e.pointerId]) {
+       pointersRef.current[e.pointerId] = { x: e.clientX, y: e.clientY };
+    }
 
-  const handlePointerUp = () => setIsDragging(false);
-  const handleWheel = (e) => {
-    if (e.ctrlKey) {
-       e.preventDefault();
-       const newScale = Math.min(Math.max(0.2, scale - e.deltaY * 0.01), 3);
+    const activePointers = Object.keys(pointersRef.current);
+
+    if (activePointers.length === 2 && initialDistRef.current !== null) {
+       const pointers = Object.values(pointersRef.current);
+       const dx = pointers[0].x - pointers[1].x;
+       const dy = pointers[0].y - pointers[1].y;
+       const currentDist = Math.hypot(dx, dy);
+       const scaleFactor = currentDist / initialDistRef.current;
+       
+       const newScale = Math.min(Math.max(0.2, initialScaleRef.current * scaleFactor), 3);
        setScale(newScale);
+       return;
+    }
+
+    if (activePointers.length === 1 && isDragging) {
+      const deltaX = (e.clientX - startPan.pointerX) * startPan.multiplier;
+      const deltaY = (e.clientY - startPan.pointerY) * startPan.multiplier;
+      setPan({ x: startPan.initialPanX + deltaX, y: startPan.initialPanY + deltaY });
     }
   };
+
+  const handlePointerUp = (e) => {
+    delete pointersRef.current[e.pointerId];
+    
+    if (Object.keys(pointersRef.current).length < 2) {
+       initialDistRef.current = null;
+    }
+    
+    if (Object.keys(pointersRef.current).length === 0) {
+       setIsDragging(false);
+       
+    // Al soltar un dedo en pinza, reiniciar las referencias para que el dedo restante no salte bruscamente al mover el mapa.
+    } else if (Object.keys(pointersRef.current).length === 1) {
+       const remainingPointer = Object.values(pointersRef.current)[0];
+       let multiplier = state.panSensitivity || 1;
+       if ((e.pointerType === 'touch' || e.pointerType === 'pen') && window.innerWidth > 1200) {
+          multiplier *= 2.5; 
+       }
+       setIsDragging(true);
+       setPan((prevPan) => {
+          setStartPan({
+             pointerX: remainingPointer.x,
+             pointerY: remainingPointer.y,
+             initialPanX: prevPan.x,
+             initialPanY: prevPan.y,
+             multiplier
+          });
+          return prevPan;
+       });
+    }
+  };
+
+  // Efecto para Wheel no-pasivo (soluciona warn ignorado de preventDefault en trackpads)
+  useEffect(() => {
+    const handleWheelNative = (e) => {
+      if (e.ctrlKey) {
+         e.preventDefault();
+         setScale((prevScale) => Math.min(Math.max(0.2, prevScale - e.deltaY * 0.01), 3));
+      }
+    };
+    
+    const elem = mainRef.current;
+    if (elem) {
+       elem.addEventListener('wheel', handleWheelNative, { passive: false });
+    }
+    return () => {
+       if (elem) elem.removeEventListener('wheel', handleWheelNative);
+    };
+  }, []);
 
   const centerWorkspace = () => {
      if (!containerRef.current || !containerRef.current.parentElement) return;
@@ -197,12 +280,14 @@ export default function Workspace() {
   return (
     <main 
       className="workspace" 
+      ref={mainRef}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onPointerOut={handlePointerUp}
       onPointerLeave={handlePointerUp}
-      onWheel={handleWheel}
-      style={{ position: 'relative' }}
+      style={{ position: 'relative', touchAction: 'none' }}
     >
       <div className="canvas-container" ref={containerRef} style={{
         transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
