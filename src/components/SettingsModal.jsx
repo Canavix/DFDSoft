@@ -61,6 +61,23 @@ export default function SettingsModal() {
          
          <div style={{display:'flex', flexDirection:'column', gap: '1.5rem'}}>
            
+           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                 <label style={{display: 'block', fontWeight: 'bold', fontSize: '1rem'}}>
+                   Modo Turbo
+                 </label>
+                 <small style={{color: '#666', fontSize: '0.85rem'}}>Ejecución rápida e instantánea de la simulación.</small>
+              </div>
+              <input 
+                 type="checkbox" 
+                 checked={state.turboMode !== false}
+                 onChange={() => dispatch({ type: 'TOGGLE_TURBO_MODE' })}
+                 style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#3b82f6'}}
+              />
+           </div>
+
+           <hr style={{border: 'none', borderTop: '1px solid #eee', margin: '-0.5rem 0'}} />
+
            <div>
               <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '0.9rem'}}>
                 Sensibilidad de Desplazamiento: {currentSensitivity}x

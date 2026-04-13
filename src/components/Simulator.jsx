@@ -168,12 +168,13 @@ export default function Simulator() {
 
   useEffect(() => {
      if (state.simulationActive && currentNodeId && modalText === null && modalInput === null) {
+        const delay = state.turboMode ? 0 : 300;
         const timer = setTimeout(() => {
            executeNode();
-        }, 300); // 300ms delay to visually follow the flow if needed, and to avoid max call stack
+        }, delay);
         return () => clearTimeout(timer);
      }
-  }, [state.simulationActive, currentNodeId, modalText, modalInput, localVars, state.blocks]);
+  }, [state.simulationActive, currentNodeId, modalText, modalInput, localVars, state.blocks, state.turboMode]);
 
   if (!state.simulationActive) return null;
 

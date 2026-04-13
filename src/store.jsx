@@ -14,6 +14,7 @@ const initialState = {
   isSidebarOpen: window.innerWidth > 768,
   isSettingsOpen: false,
   panSensitivity: 1,
+  turboMode: true,
 };
 
 const DFDContext = createContext();
@@ -82,6 +83,8 @@ function dfdReducer(state, action) {
       return { ...state, isSettingsOpen: action.payload };
     case 'SET_PAN_SENSITIVITY':
       return { ...state, panSensitivity: action.payload };
+    case 'TOGGLE_TURBO_MODE':
+      return { ...state, turboMode: !state.turboMode };
     case 'UPDATE_BLOCK':
       return {
         ...state,

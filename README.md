@@ -24,14 +24,12 @@
 4. **Editar Bloques:** Haz **doble clic** sobre un bloque de Entrada, Salida, Condicional u Operación, para entrelazar las variables creadas con operaciones u órdenes.
 5. **Ejecutar:** Presiona **Play** (botón verde superior derecho) para inicializar el algoritmo. El flujo será guiado.
 
-## ⚖️ Licencia
-
 ## ©️ Licencia y Distribución
-Este proyecto está bajo la Licencia MIT, se distribuye bajo fines de uso **educativo libre y de código abierto (Open Source)**. Está permitido su uso, clonación e implementación gratuita total para acompañar los procesos pedagógicos en la estructuración algorítmica.
+Este software se distribuye bajo fines de uso **educativo libre y de código abierto (Open Source)**. Está permitido su uso, clonación e implementación gratuita total para acompañar los procesos pedagógicos en la estructuración algorítmica.
 *El logotipo institucional "ITS" pertenece al Instituto Tecnológico de Santa Rosa de Cabal bajo sus respectivos derechos de uso de marca.*
 
 ## 👨‍💻 Acerca del Desarrollador
-Si utilizas esta herramienta en tu institución, ¡me encantaría saberlo! Puedes contactarme para asesorías o sugerencias.
+DFDSoft fue diseñado y desarrollado íntegramente por:
 **Cristian Camilo Cañaveral Avilés**
 ✉️ Correo de contacto y soporte: [camilo.canaveral@itspereira.edu.co](mailto:camilo.canaveral@itspereira.edu.co)
 🌐 Github: [github.com/Canavix](https://github.com/Canavix)
